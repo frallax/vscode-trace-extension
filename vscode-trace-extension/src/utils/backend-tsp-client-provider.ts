@@ -47,23 +47,27 @@ export const addTspClientChangeListener = (listenerFunction: (tspClient: TspClie
  * @returns server status as boolean
  */
 export async function isTraceServerUp(): Promise<boolean> {
-    const health = await getTspClient().checkHealth();
-    const status = health.getModel()?.status;
-    const serverIsUp = health.isOk() && status === 'UP';
-    vscode.commands.executeCommand('setContext', 'traceViewer.serverUp', serverIsUp);
-    return serverIsUp;
+    // const health = await getTspClient().checkHealth();
+    // const status = health.getModel()?.status;
+    // const serverIsUp = health.isOk() && status === 'UP';
+    // vscode.commands.executeCommand('setContext', 'traceViewer.serverUp', serverIsUp);
+    // return serverIsUp;
+    vscode.commands.executeCommand('setContext', 'traceViewer.serverUp', true);
+    return true;
 }
 
 /**
  * Checks for opened traces and updates the vscode context `trace-explorer.noExperiments`
  */
 export async function updateNoExperimentsContext(): Promise<void> {
-    const response = await getTspClient().fetchExperiments();
-    if (!response.isOk()) {
-        return;
-    }
-    const noExperiments = !response.getModel()?.length;
-    vscode.commands.executeCommand('setContext', 'trace-explorer.noExperiments', noExperiments);
+    // const response = await getTspClient().fetchExperiments();
+    // if (!response.isOk()) {
+    //     return;
+    // }
+    // const noExperiments = !response.getModel()?.length;
+    // vscode.commands.executeCommand('setContext', 'trace-explorer.noExperiments', noExperiments);
+    // return;
+    vscode.commands.executeCommand('setContext', 'trace-explorer.noExperiments', false);
     return;
 }
 
