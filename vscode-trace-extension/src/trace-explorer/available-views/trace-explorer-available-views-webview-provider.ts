@@ -7,7 +7,7 @@ import * as vscode from 'vscode';
 import { VSCODE_MESSAGES } from 'vscode-trace-common/lib/messages/vscode-message-manager';
 import { convertSignalExperiment } from 'vscode-trace-common/lib/signals/vscode-signal-converter';
 import { TraceViewerPanel } from '../../trace-viewer-panel/trace-viewer-webview-panel';
-import { getTspClientUrl } from '../../utils/backend-tsp-client-provider';
+import { getTspClientUrlFE } from '../../utils/backend-tsp-client-provider';
 import { AbstractTraceExplorerProvider } from '../abstract-trace-explorer-provider';
 
 const JSONBig = JSONBigConfig({
@@ -48,7 +48,7 @@ export class TraceExplorerAvailableViewsProvider extends AbstractTraceExplorerPr
                         // Post the tspTypescriptClient
                         this._view?.webview.postMessage({
                             command: VSCODE_MESSAGES.SET_TSP_CLIENT,
-                            data: getTspClientUrl()
+                            data: getTspClientUrlFE()
                         });
                         if (this._selectedExperiment !== undefined) {
                             signalManager().emit('EXPERIMENT_SELECTED', this._selectedExperiment);

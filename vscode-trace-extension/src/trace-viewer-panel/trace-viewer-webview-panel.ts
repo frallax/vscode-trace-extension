@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
 import { Experiment } from 'tsp-typescript-client/lib/models/experiment';
-import { getTspClientUrl, getTraceServerUrl } from '../utils/backend-tsp-client-provider';
+import { getTraceServerUrl, getTspClientUrlFE } from '../utils/backend-tsp-client-provider';
 import { TraceServerConnectionStatusService } from '../utils/trace-server-status';
 import { OutputDescriptor } from 'tsp-typescript-client/lib/models/output-descriptor';
 import { handleStatusMessage, handleRemoveMessage, setStatusFromPanel } from '../common/trace-message';
@@ -263,13 +263,13 @@ export class TraceViewerPanel {
                             const wrapper: string = JSONBig.stringify(this._experiment);
                             this._panel.webview.postMessage({
                                 command: VSCODE_MESSAGES.SET_TSP_CLIENT,
-                                data: getTspClientUrl(),
+                                data: getTspClientUrlFE(),
                                 experiment: wrapper
                             });
                         } else {
                             this._panel.webview.postMessage({
                                 command: VSCODE_MESSAGES.SET_TSP_CLIENT,
-                                data: getTspClientUrl()
+                                data: getTspClientUrlFE()
                             });
                         }
                         this.loadTheme();

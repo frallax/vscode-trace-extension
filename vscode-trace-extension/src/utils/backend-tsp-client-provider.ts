@@ -12,11 +12,13 @@ import { TspClientProvider } from 'vscode-trace-common/lib/client/tsp-client-pro
 let _root: string;
 let _path: string;
 let _url: string;
+let _urlFE: string;
 let _provider: TspClientProvider;
 
 export const getTraceServerUrl = (): string => _root;
 export const getTspApiEndpoint = (): string => _path;
 export const getTspClientUrl = (): string => _url;
+export const getTspClientUrlFE = (): string => _urlFE;
 
 export const getTspClient = (): TspClient => _provider.getTspClient();
 export const getExperimentManager = (): ExperimentManager => _provider.getExperimentManager();
@@ -27,6 +29,10 @@ export const updateTspClientUrl = async (): Promise<string> => {
     _root = _extUri.toString();
     _path = getApiPathFromUserSettings();
     _url = _root + _path;
+
+    const _extUriFE = await getUriForFE();
+    const _rootFE = _extUriFE.toString();
+    _urlFE = _rootFE + _path;
 
     if (!_provider) {
         _provider = new TspClientProvider(_url, undefined);
@@ -69,9 +75,18 @@ export async function updateNoExperimentsContext(): Promise<void> {
 
 async function getExternalUriFromUserSettings(): Promise<vscode.Uri> {
     const tsConfig =vscode.workspace.getConfiguration('trace-compass.traceserver');
+    // const traceServerUrl: string = tsConfig.get<string>('url') || 'http://localhost:8080';
     const traceServerUrl: string = tsConfig.get<boolean>('enableSeparateBackendUrl') ? 
         tsConfig.get<string>('backendUrl') || tsConfig.get<string>('url') || 'http://localhost:8080' :
         tsConfig.get<string>('url') || 'http://localhost:8080';
+    const url = traceServerUrl.endsWith('/') ? traceServerUrl : traceServerUrl + '/';
+    const baseUri = vscode.Uri.parse(url);
+    return vscode.env.asExternalUri(baseUri);
+}
+
+async function getUriForFE(): Promise<vscode.Uri> {
+    const tsConfig =vscode.workspace.getConfiguration('trace-compass.traceserver');
+    const traceServerUrl: string = tsConfig.get<string>('url') || 'http://localhost:8080';
     const url = traceServerUrl.endsWith('/') ? traceServerUrl : traceServerUrl + '/';
     const baseUri = vscode.Uri.parse(url);
     return vscode.env.asExternalUri(baseUri);
