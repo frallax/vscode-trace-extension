@@ -10,12 +10,14 @@ import { TspClientProvider } from 'vscode-trace-common/lib/client/tsp-client-pro
  */
 
 let _root: string;
+let _rootFE: string;
 let _path: string;
 let _url: string;
 let _urlFE: string;
 let _provider: TspClientProvider;
 
 export const getTraceServerUrl = (): string => _root;
+export const getTraceServerUrlFE = (): string => _rootFE;
 export const getTspApiEndpoint = (): string => _path;
 export const getTspClientUrl = (): string => _url;
 export const getTspClientUrlFE = (): string => _urlFE;
@@ -31,7 +33,7 @@ export const updateTspClientUrl = async (): Promise<string> => {
     _url = _root + _path;
 
     const _extUriFE = await getUriForFE();
-    const _rootFE = _extUriFE.toString();
+    _rootFE = _extUriFE.toString();
     _urlFE = _rootFE + _path;
 
     if (!_provider) {
