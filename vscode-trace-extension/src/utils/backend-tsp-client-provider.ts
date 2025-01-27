@@ -34,7 +34,8 @@ export const updateTspClientUrl = async (): Promise<string> => {
 
     const _extUriFE = await getUriForFE();
     _rootFE = _extUriFE.toString();
-    _urlFE = _rootFE + _path;
+    const _pathFE = getApiPathFromUserSettingsFE();
+    _urlFE = _rootFE + _pathFE;
 
     if (!_provider) {
         _provider = new TspClientProvider(_url, undefined);
@@ -95,6 +96,14 @@ async function getUriForFE(): Promise<vscode.Uri> {
 }
 
 function getApiPathFromUserSettings(): string {
+    const tsConfig = vscode.workspace.getConfiguration('trace-compass.traceserver');
+    const traceServerApiPath: string = tsConfig.get<boolean>('enableSeparateBackendUrl') ? 
+        tsConfig.get<string>('backendApiPath') || tsConfig.get<string>('apiPath') || 'tsp/api' :
+        tsConfig.get<string>('url') || 'tsp/api';
+    return traceServerApiPath
+}
+
+function getApiPathFromUserSettingsFE(): string {
     const tsConfig = vscode.workspace.getConfiguration('trace-compass.traceserver');
     return tsConfig.get<string>('apiPath') || 'tsp/api';
 }

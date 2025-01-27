@@ -278,6 +278,12 @@
                     "default": "http://localhost:8080",
                     "description": "Backend trace-server URL - Only used when separate backend URL is enabled.",
                     "order": 4
+                },
+                "trace-compass.traceserver.backendApiPath": {
+                    "type": "string",
+                    "default": "tsp/api",
+                    "description": "Enter the trace server's API path, to be appended to the server URL. Eg: 'tsp/api'.",
+                    "order": 5
                 }
             }
         },

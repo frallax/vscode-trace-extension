@@ -80,7 +80,8 @@ export async function activate(context: vscode.ExtensionContext): Promise<Extern
                 e.affectsConfiguration('trace-compass.traceserver.url') ||
                 e.affectsConfiguration('trace-compass.traceserver.apiPath') ||
                 e.affectsConfiguration('trace-compass.traceserver.backendUrl') ||
-                e.affectsConfiguration('trace-compass.traceserver.enableSeparateBackendUrl')
+                e.affectsConfiguration('trace-compass.traceserver.enableSeparateBackendUrl') ||
+                e.affectsConfiguration('trace-compass.traceserver.backendApiPath')
             ) {
                 const newTspClientURL = await updateTspClientUrl();
 
